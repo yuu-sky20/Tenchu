@@ -98,7 +98,7 @@ class DPS : Enemy
     public override int InitHP()
     {
         Random r = new Random();
-        return r.Next(40, 71);
+        return r.Next(40, 80);
     }
 }
 
@@ -109,7 +109,7 @@ class Tank : Enemy
     public override int InitHP()
     {
         Random r = new Random();
-        return r.Next(40, 81);
+        return r.Next(40, 70);
     }
 }
 
@@ -132,6 +132,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI killedText;
     private int killedCount;
 
+    private int targetIndex;
     private IEnemy targetEnemy;
     
     public AudioClip soundDamage1;
@@ -153,12 +154,13 @@ public class GameController : MonoBehaviour
         killedText.text = "";
         killedCount = 0;
         retryMessage.SetActive(false);
-        targetEnemy = enemiesData[0];
+        targetEnemy = enemiesData[targetIndex];
         actionController.SendMessage("Initialize");
     }
 
     private void Awake()
     {
+        targetIndex = 0;
         Initialize();
         StartCoroutine(MoveHealerHP());
     }
@@ -275,6 +277,7 @@ public class GameController : MonoBehaviour
     public void SetTargetEnemy(int i)
     {
         targetEnemy = enemiesData[i];
+        targetIndex = i;
     }
 
     public int LowAttack()
